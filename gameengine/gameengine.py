@@ -47,7 +47,6 @@ class GameEngine:
     def update_scene(cls):
         cls.scene.update()
 
-
     @classmethod
     def draw_scene(cls):
         if Window._sdl2_window.size != Display.get_size():
@@ -65,8 +64,9 @@ class GameEngine:
         while True:
             cls.update_events()
 
-            if cls.scene is not None:
+            if hasattr(cls.scene, "update"):
                 cls.update_scene()
+            if hasattr(cls.scene, "draw"):
                 cls.draw_scene()
 
             pygame.display.update()
