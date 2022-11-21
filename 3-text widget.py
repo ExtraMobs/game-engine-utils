@@ -1,7 +1,6 @@
 import pygame
 
-from gameengine import Display, GameEngine, GameResources, Window
-from gameengine import widgets
+from gameengine import Display, GameEngine, GameResources, Window, widgets
 
 
 class MainScene(pygame.sprite.LayeredDirty):  # Group subclass
