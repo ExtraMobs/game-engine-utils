@@ -38,8 +38,9 @@ if __name__ == "__main__":
     Window.set_size((720, 405))
     Display.update_display_from_window()
 
-    GameResources.Scenes.add_scene("main scene", MainScene)
+    # GameResources.Scenes.add_scene("main scene", MainScene)
+    # GameEngine.set_scene(GameResources.Scenes.get_scene("main scene"))
 
-    GameEngine.set_scene(GameResources.Scenes.get_scene("main scene"))
+    GameEngine.set_scene(MainScene())
 
     GameEngine.start_loop()
