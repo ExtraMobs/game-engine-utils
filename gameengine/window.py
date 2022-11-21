@@ -21,6 +21,10 @@ class Window:
         Window._sdl2_window = pygame._sdl2.Window.from_display_module()
 
     @classmethod
+    def get_rect(self):
+        return self.window_surface.get_rect()
+
+    @classmethod
     def set_title(cls, title):
         pygame.display.set_caption(title)
 

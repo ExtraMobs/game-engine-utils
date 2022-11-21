@@ -24,6 +24,10 @@ class Display:
             pass
 
     @classmethod
+    def get_rect(self):
+        return self.display_surface.get_rect()
+
+    @classmethod
     def get_scale(self):
         return self.ref_scale.xy
 
