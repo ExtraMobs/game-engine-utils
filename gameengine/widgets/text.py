@@ -1,6 +1,7 @@
 from pprint import pp
 import pygame
 from ..display import Display
+import os
 
 
 class Letter:
@@ -14,18 +15,31 @@ class Letter:
 
 
 class Text(pygame.sprite.DirtySprite):
-    def __init__(self, text, pos=0):
+    def __init__(self, text, pos=0, font="arial", font_size=20, target=None):
         super().__init__()
-        self.__font = pygame.font.SysFont("arial", 20)
+
+        if target is None:
+            target = Display.display_surface.copy()
+
         self.pos = pygame.Vector2(pos)
-        self.image = Display.display_surface.copy()
-        self.image.fill((0, 0, 0, 0))
+        self.image = target
         self.rect = self.image.get_rect()
 
+        self.text = ""
+
+        self.set_font(font, font_size)
         self.set_text(text)
+
+    def set_font(self, font, size):
+        if os.path.isfile(font):
+            self.font = pygame.font.Font(font, size)
+        else:
+            self.font = pygame.font.SysFont(font, size)
+        self.set_text(self.text)
 
     def set_text(self, text):
         self.letters = {}
+        self.text = text
         for line_index, line in enumerate(text.split("\n")):
             self.set_line(line, line_index)
         self.update_image()
@@ -33,11 +47,11 @@ class Text(pygame.sprite.DirtySprite):
     def set_line(self, text, line_index):
         last_right = 0
         line = list(text)
-        y = line_index * self.__font.get_linesize()
+        y = line_index * self.font.get_linesize()
         for index, letter in enumerate(line):
             if letter not in self.letters.keys():
                 self.letters[letter] = Letter(
-                    surface=self.__font.render(letter, True, (255, 255, 255))
+                    surface=self.font.render(letter, True, (255, 255, 255))
                 )
             rect = self.letters[letter].surface.get_rect()
             rect.y = y
@@ -47,8 +61,10 @@ class Text(pygame.sprite.DirtySprite):
             last_right = rect.right
 
     def update_image(self):
+        self.image.fill((0, 0, 0, 0))
         for data in self.letters.values():
             for pos in data.pos:
                 self.image.blit(
                     data.surface, (pos[0] + self.pos.x, pos[1] + self.pos.y)
                 )
+        self.dirty = 1
