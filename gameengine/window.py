@@ -1,12 +1,11 @@
-from pprint import pp
-
 import pygame
 import pygame._sdl2
 
 
 class Window:
     _sdl2_window = None
-    window_surface = None
+    surface = None
+    size = (1, 1)
 
     @classmethod
     def get_size(cls):
@@ -17,12 +16,12 @@ class Window:
         flag = 0
         for f in flags:
             flag |= f
-        cls.window_surface = pygame.display.set_mode(size, flag)
+        cls.surface = pygame.display.set_mode(size, flag)
         Window._sdl2_window = pygame._sdl2.Window.from_display_module()
 
     @classmethod
     def get_rect(self):
-        return self.window_surface.get_rect()
+        return self.surface.get_rect()
 
     @classmethod
     def set_title(cls, title):

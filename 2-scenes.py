@@ -1,6 +1,6 @@
 import pygame
 
-from gameengine import Display, GameEngine, GameResources, Window
+from gameengine import Display, Engine, Window
 
 
 class RectSprite(pygame.sprite.DirtySprite):  # Sprite subclass
@@ -28,8 +28,8 @@ class MainScene(pygame.sprite.LayeredDirty):  # Group subclass
     def update(self):
         super().update()
 
-        if GameEngine.request_quit:
-            GameEngine.quit()
+        if Engine.request_quit:
+            Engine.system_exit()
 
 
 if __name__ == "__main__":
@@ -39,8 +39,8 @@ if __name__ == "__main__":
     Display.update_display_from_window()
 
     # GameResources.Scenes.add_scene("main scene", MainScene)
-    # GameEngine.set_scene(GameResources.Scenes.get_scene("main scene"))
+    # Engine.set_scene(GameResources.Scenes.get_scene("main scene"))
 
-    GameEngine.set_scene(MainScene())
+    Engine.set_scene(MainScene())
 
-    GameEngine.start_loop()
+    Engine.start_loop()

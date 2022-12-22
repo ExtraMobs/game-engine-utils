@@ -1,6 +1,6 @@
 import pygame
 
-from gameengine import Display, GameEngine, GameResources, Window, widgets
+from gameengine import Display, Engine, Window, widgets
 
 
 class MainScene(pygame.sprite.LayeredDirty):  # Group subclass
@@ -16,8 +16,8 @@ class MainScene(pygame.sprite.LayeredDirty):  # Group subclass
     def update(self):
         super().update()
 
-        if GameEngine.request_quit:
-            GameEngine.quit()
+        if Engine.request_quit:
+            Engine.system_exit()
 
 
 if __name__ == "__main__":
@@ -26,6 +26,6 @@ if __name__ == "__main__":
     Window.set_size((720, 405))
     Display.update_display_from_window()
 
-    GameEngine.set_scene(MainScene())
+    Engine.set_scene(MainScene())
 
-    GameEngine.start_loop()
+    Engine.start_loop()

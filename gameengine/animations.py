@@ -46,11 +46,11 @@ class Animations:
             animation_type = animation_data["type"]
             data = animation_data["data"]
             if animation_type == cls.FRAME_TYPE:
-                surfaces.append(data[0].copy())
-            elif animation_data == cls.AREA_TYPE:
+                surfaces.append(data[0].convert_alpha())
+            elif animation_type == cls.AREA_TYPE:
                 surface = data[0].subsurface(pygame.Rect(data[1]))
                 if len(data) >= 3:
                     if data[2]:
-                        surface = surface.copy()
+                        surface = surface.convert_alpha()
                 surfaces.append(surface)
         return cls(fps, *surfaces)

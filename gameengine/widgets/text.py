@@ -1,4 +1,3 @@
-from pprint import pp
 import pygame
 from ..display import Display
 import os
@@ -19,7 +18,7 @@ class Text(pygame.sprite.DirtySprite):
         super().__init__()
 
         if target is None:
-            target = Display.display_surface.copy()
+            target = Display.surface.copy()
 
         self.pos = pygame.Vector2(pos)
         self.image = target

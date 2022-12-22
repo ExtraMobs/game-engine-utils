@@ -4,7 +4,7 @@ import pygame
 
 
 class Display:
-    display_surface = None
+    surface = None
     background = None
     ref_scale = pygame.math.Vector2(1, 1)
 
@@ -13,7 +13,7 @@ class Display:
         cls.ref_scale = pygame.Vector2(*scale)
         try:
             window_size = pygame.display.get_window_size()
-            cls.display_surface = pygame.Surface(
+            cls.surface = pygame.Surface(
                 (
                     math.ceil(window_size[0] / cls.ref_scale.x),
                     math.ceil(window_size[1] / cls.ref_scale.y),
@@ -25,7 +25,7 @@ class Display:
 
     @classmethod
     def get_rect(self):
-        return self.display_surface.get_rect()
+        return self.surface.get_rect()
 
     @classmethod
     def get_scale(self):
@@ -43,7 +43,7 @@ class Display:
 
     @classmethod
     def get_size(cls):
-        return cls.display_surface.get_size()
+        return cls.surface.get_size()
 
     @classmethod
     def update_display_from_window(cls):

@@ -7,8 +7,7 @@ from .window import Window
 pygame.init()
 
 
-class GameEngine:
-    display = None
+class Engine:
     scene = None
     request_quit = False
     framerate = 30
@@ -31,33 +30,29 @@ class GameEngine:
         )
 
     @classmethod
-    def tick_clock(cls):
+    def clock_tick(cls):
         cls.deltatime = cls.clock.tick(cls.framerate) / 1000
 
     @classmethod
     def set_scene(cls, scene):
         cls.scene = scene
-        Window.window_surface.fill((0, 0, 0))
+        Window.surface.fill((0, 0, 0))
 
     @classmethod
-    def quit(cls):
+    def system_exit(cls):
         raise SystemExit(0)
 
     @classmethod
-    def update_scene(cls):
-        cls.scene.update()
-
-    @classmethod
     def draw_scene(cls):
-        if Window._sdl2_window.size != Display.get_size():
-            cls.scene.draw(Display.display_surface, Display.background)
+        if Window.get_size() != Display.get_size():
+            cls.scene.draw(Display.surface, Display.background)
             pygame.transform.scale(
-                Display.display_surface,
+                Display.surface,
                 Window._sdl2_window.size,
-                Window.window_surface,
+                Window.surface,
             )
         else:
-            cls.scene.draw(Window.window_surface, Display.background)
+            cls.scene.draw(Window.surface, Display.background)
 
     @classmethod
     def start_loop(cls):
@@ -65,9 +60,9 @@ class GameEngine:
             cls.update_events()
 
             if hasattr(cls.scene, "update"):
-                cls.update_scene()
+                cls.scene.update()
             if hasattr(cls.scene, "draw"):
                 cls.draw_scene()
 
             pygame.display.update()
-            cls.tick_clock()
+            cls.clock_tick()

@@ -1,37 +1,26 @@
 import pygame
 
 
-class GameResources:
+class Resources:
     class Scenes:
         scenes = {}
 
         @classmethod
-        def add_scene(cls, name, pygame_group, *args, **kwargs):
-            def call_scene():
+        def add(cls, name, pygame_group, *args, **kwargs):
+            def call():
                 return pygame_group(*args, **kwargs)
 
-            cls.scenes[name] = call_scene
+            cls.scenes[name] = call
 
         @classmethod
-        def get_scene(cls, name):
+        def get(cls, name):
             return cls.scenes[name]()
-
-    class Animation:
-        animations = {}
-
-        @classmethod
-        def add_animation_data(cls, name, animation):
-            cls.animations[name] = animation
-
-        @classmethod
-        def get_animation_data(cls, name):
-            return cls.animations[name]
 
     class Surface:
         surfaces = {}
 
         @staticmethod
-        def load_surface_from_file(path, alpha=True):
+        def load_from_file(path, alpha=True):
             surface = pygame.image.load(path)
             try:
                 if alpha:
@@ -43,17 +32,17 @@ class GameResources:
                 return surface
 
         @classmethod
-        def add_surface_from_file(cls, name, path, alpha=True):
-            cls.add_surface(name, cls.load_surface_from_file(path, alpha))
+        def add_from_file(cls, name, path, alpha=True):
+            cls.add(name, cls.load_from_file(path, alpha))
 
         @classmethod
-        def add_surface(cls, name, surface, copy=False):
+        def add(cls, name, surface, copy=False):
             if copy:
                 surface = surface.copy()
             cls.surfaces[name] = surface
 
         @classmethod
-        def get_surface(cls, name, copy=False) -> pygame.Surface:
+        def get(cls, name, copy=False) -> pygame.Surface:
             surface = cls.surfaces[name]
             if copy:
                 return surface.copy()
@@ -61,7 +50,7 @@ class GameResources:
                 return surface
 
         @staticmethod
-        def get_new_surface(size, *flags, alpha=True):
+        def new(size, *flags, alpha=True):
             flag = 0
             for f in flags:
                 if f != pygame.SRCALPHA:

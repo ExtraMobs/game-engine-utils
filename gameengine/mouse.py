@@ -3,6 +3,7 @@ import pygame
 
 class Mouse:
     pos = (0, 0)
+    wheel = (0, 0)
     _default_pressed_event = [False, False, False]
     pressed_event = list(_default_pressed_event)
     pressed = list(_default_pressed_event)
@@ -10,6 +11,7 @@ class Mouse:
     @classmethod
     def update(cls, *events):
         cls.pressed_event = list(cls._default_pressed_event)
+        cls.wheel = (0, 0)
         for event in events:
             if event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP):
                 button = None
@@ -27,6 +29,8 @@ class Mouse:
                         cls.pressed[event.button - 1] = False
             if event.type == pygame.MOUSEMOTION:
                 cls.pos = event.pos
+            if event.type == pygame.MOUSEWHEEL:
+                cls.wheel = (event.x, event.y)
 
     @classmethod
     def get_pressed(cls, pygame_button):
