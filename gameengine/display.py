@@ -12,7 +12,7 @@ class Display:
     def set_scale(cls, *scale):
         cls.ref_scale = pygame.Vector2(*scale)
         try:
-            window_size = pygame.display.get_window_size()
+            window_size = pygame.display.get_surface().get_size()
             cls.surface = pygame.Surface(
                 (
                     math.ceil(window_size[0] / cls.ref_scale.x),
@@ -33,7 +33,7 @@ class Display:
 
     @classmethod
     def set_size(cls, size):
-        window_size = pygame.display.get_window_size()
+        window_size = pygame.display.get_surface().get_size()
         cls.set_scale(
             (
                 window_size[0] / size[0],

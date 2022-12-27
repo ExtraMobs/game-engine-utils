@@ -1,15 +1,13 @@
 import pygame
-import pygame._sdl2
 
 
 class Window:
-    _sdl2_window = None
     surface = None
     size = (1, 1)
 
     @classmethod
     def get_size(cls):
-        return cls._sdl2_window.size
+        return cls.surface.get_size()
 
     @classmethod
     def set_size(cls, size, *flags):
@@ -17,7 +15,6 @@ class Window:
         for f in flags:
             flag |= f
         cls.surface = pygame.display.set_mode(size, flag)
-        Window._sdl2_window = pygame._sdl2.Window.from_display_module()
 
     @classmethod
     def get_rect(self):

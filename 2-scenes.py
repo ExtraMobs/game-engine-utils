@@ -14,8 +14,6 @@ class RectSprite(pygame.sprite.DirtySprite):  # Sprite subclass
 
         self.rect.center = Display.get_rect().center
 
-        self.dirty = 1  # See pygame docs
-
 
 class MainScene(pygame.sprite.LayeredDirty):  # Group subclass
     def __init__(self):
@@ -37,9 +35,6 @@ if __name__ == "__main__":
 
     Window.set_size((720, 405))
     Display.update_display_from_window()
-
-    # GameResources.Scenes.add_scene("main scene", MainScene)
-    # Engine.set_scene(GameResources.Scenes.get_scene("main scene"))
 
     Engine.set_scene(MainScene())
 

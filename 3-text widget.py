@@ -3,13 +3,24 @@ import pygame
 from gameengine import Display, Engine, Window, widgets
 
 
+class Label(pygame.sprite.DirtySprite):
+    def __init__(self):
+        super().__init__()
+        text = widgets.Text(
+            pygame.font.SysFont("arial", 20),
+            (255, 255, 255),
+            text="Teste sobre Widgets\nEsse é o widget de texto",
+        )
+        self.image = text.draw_surface()
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (200, 100)
+
+
 class MainScene(pygame.sprite.LayeredDirty):  # Group subclass
     def __init__(self):
         super().__init__()
 
-        text = widgets.Text("Teste sobre Widgets\nEsse é o widget de texto", (200, 100))
-
-        self.add(text)
+        self.add(Label())
 
         print("Cena principal pronta")
 
