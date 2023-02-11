@@ -3,6 +3,7 @@ import pygame
 from .display import Display
 from .mouse import Mouse
 from .window import Window
+from .scene import Scene
 
 pygame.init()
 
@@ -45,23 +46,22 @@ class Engine:
     @classmethod
     def draw_scene(cls):
         if Window.get_size() != Display.get_size():
-            cls.scene.draw(Display.surface, Display.background)
+            cls.scene.render(Display.surface, Display.background)
             pygame.transform.scale(
                 Display.surface,
-                Window._sdl2_window.size,
+                Window.size,
                 Window.surface,
             )
         else:
-            cls.scene.draw(Window.surface, Display.background)
+            cls.scene.render(Window.surface, Display.background)
 
     @classmethod
     def start_loop(cls):
         while True:
             cls.update_events()
 
-            if hasattr(cls.scene, "update"):
-                cls.scene.update()
-            if hasattr(cls.scene, "draw"):
+            if isinstance(cls.scene, Scene):
+                cls.scene.process()
                 cls.draw_scene()
 
             pygame.display.update()

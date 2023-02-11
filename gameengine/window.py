@@ -1,5 +1,7 @@
 import pygame
 
+from ._dev_utils import classproperty
+
 
 class Window:
     surface = None
@@ -22,8 +24,16 @@ class Window:
 
     @classmethod
     def get_title(cls):
-        return cls._sdl2_window.title
+        return pygame.display.get_caption()
 
-    @classmethod
-    def get_window_sdl2(cls):
-        return cls._sdl2_window
+    @classproperty
+    def size(self):
+        return self.surface.get_size()
+
+    @classproperty
+    def width(self):
+        return self.surface.get_width()
+
+    @classproperty
+    def height(self):
+        return self.surface.get_height()

@@ -1,30 +1,32 @@
 import pygame
 
-from gameengine import Display, Engine, Window
+from gameengine import Display, Engine, Scene, Window, objects
 
 
-class RectSprite(pygame.sprite.DirtySprite):  # Sprite subclass
+class RectSprite(objects.GraphicObject):  # Sprite subclass
     def __init__(self):
         super().__init__()
 
-        self.image = pygame.Surface((100, 100))
-        self.image.fill("RED")
+        self.surface = pygame.Surface((100, 100))
+        self.surface.fill("RED")
 
-        self.rect = self.image.get_rect()
+        # centering the rectangle
+        surface_size = self.surface.get_size()
+        self.position.xy = Display.surface.get_rect().center
+        self.position.x -= surface_size[0] / 2
+        self.position.y -= surface_size[1] / 2
 
-        self.rect.center = Display.surface.get_rect().center
 
-
-class MainScene(pygame.sprite.LayeredDirty):  # Group subclass
+class MainScene(Scene):  # Group subclass
     def __init__(self):
         super().__init__()
 
-        self.add(RectSprite())
+        self.add_child(RectSprite())
 
         print("Cena principal pronta")
 
-    def update(self):
-        super().update()
+    def process(self):
+        super().process()
 
         if Engine.request_quit:
             Engine.system_exit()
