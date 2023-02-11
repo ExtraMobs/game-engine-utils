@@ -17,10 +17,6 @@ class Window:
         cls.surface = pygame.display.set_mode(size, flag)
 
     @classmethod
-    def get_rect(self):
-        return self.surface.get_rect()
-
-    @classmethod
     def set_title(cls, title):
         pygame.display.set_caption(title)
 

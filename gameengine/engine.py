@@ -40,7 +40,7 @@ class Engine:
 
     @classmethod
     def system_exit(cls):
-        raise SystemExit(0)
+        raise exit(0)
 
     @classmethod
     def draw_scene(cls):

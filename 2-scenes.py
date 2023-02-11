@@ -12,7 +12,7 @@ class RectSprite(pygame.sprite.DirtySprite):  # Sprite subclass
 
         self.rect = self.image.get_rect()
 
-        self.rect.center = Display.get_rect().center
+        self.rect.center = Display.surface.get_rect().center
 
 
 class MainScene(pygame.sprite.LayeredDirty):  # Group subclass

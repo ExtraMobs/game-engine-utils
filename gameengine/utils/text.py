@@ -27,10 +27,19 @@ class Line:
         self.rect = pygame.Rect((0, y), size)
 
     def draw_on(self, surface: pygame.Surface, offset=(0, 0)):
+        rects = []
+        old_rect = None
         for letter in self.letters:
-            surface.blit(
-                letter.image, (letter.rect.x + offset[0], letter.rect.y + offset[1])
+            rects.append(
+                rect := surface.blit(
+                    letter.image, (letter.rect.x + offset[0], letter.rect.y + offset[1])
+                )
             )
+            rect.y = self.rect.y
+            if old_rect is not None:
+                rect.left = old_rect.right
+            old_rect = rect
+        return rects, self.rect
 
     def draw_surface(self):
         if len(self.letters) > 0:
@@ -45,11 +54,11 @@ class Line:
 class Text(pygame.sprite.DirtySprite):
     def __init__(
         self,
-        font: pygame.font.Font,
+        text="",
+        font=pygame.font.SysFont("arial", 15),
         font_color=(0, 0, 0),
         background=None,
         alias=True,
-        text="",
     ) -> None:
         super().__init__()
         self.font = font
@@ -75,12 +84,14 @@ class Text(pygame.sprite.DirtySprite):
 
     def draw_on(self, surface: pygame.Surface, offset=(0, 0)):
         surface_rect = surface.get_rect()
+        rects = []
         for line in self.lines:
             rect = line.rect.copy()
             rect.x += offset[0]
             rect.y += offset[1]
             if rect.colliderect(surface_rect):
-                line.draw_on(surface, offset)
+                rects.append(line.draw_on(surface, offset))
+        return rects
 
     def draw_surface(self):
         w, h = 0, 0

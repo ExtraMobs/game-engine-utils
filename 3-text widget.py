@@ -1,15 +1,15 @@
 import pygame
 
-from gameengine import Display, Engine, Window, widgets
+from gameengine import Display, Engine, Window, utils
 
 
 class Label(pygame.sprite.DirtySprite):
     def __init__(self):
         super().__init__()
-        text = widgets.Text(
+        text = utils.Text(
+            "Teste sobre Widgets\nEsse é o widget de texto",
             pygame.font.SysFont("arial", 20),
             (255, 255, 255),
-            text="Teste sobre Widgets\nEsse é o widget de texto",
         )
         self.image = text.draw_surface()
         self.rect = self.image.get_rect()

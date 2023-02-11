@@ -2,16 +2,17 @@ import pygame
 
 
 class Mouse:
-    pos = (0, 0)
-    wheel = (0, 0)
-    _default_pressed_event = [False, False, False]
-    pressed_event = list(_default_pressed_event)
-    pressed = list(_default_pressed_event)
+    pos = pygame.Vector2(0, 0)
+    wheel = pygame.Vector2(0, 0)
+    in_motion = False
+    pressed_event = {}
+    pressed = {}
 
     @classmethod
     def update(cls, *events):
-        cls.pressed_event = list(cls._default_pressed_event)
-        cls.wheel = (0, 0)
+        cls.pressed_event.clear()
+        cls.wheel.xy = (0, 0)
+        cls.in_motion = False
         for event in events:
             if event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP):
                 button = None
@@ -23,19 +24,20 @@ class Mouse:
                     button = event.button
                 if button is not None:
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        cls.pressed[event.button - 1] = True
-                        cls.pressed_event[event.button - 1] = True
+                        cls.pressed[event.button] = True
+                        cls.pressed_event[event.button] = True
                     else:
-                        cls.pressed[event.button - 1] = False
+                        cls.pressed[event.button] = False
             if event.type == pygame.MOUSEMOTION:
-                cls.pos = event.pos
+                cls.pos.xy = event.pos
+                cls.in_motion = True
             if event.type == pygame.MOUSEWHEEL:
-                cls.wheel = (event.x, event.y)
+                cls.wheel.xy = (event.x, event.y)
 
     @classmethod
     def get_pressed(cls, pygame_button):
-        return cls.pressed[pygame_button - 1]
+        return cls.pressed.get(pygame_button, False)
 
     @classmethod
-    def get_pressed_event(cls, pygame_button):
-        return cls.pressed_event[pygame_button - 1]
+    def get_pressed_in_frame(cls, pygame_button):
+        return cls.pressed_event.get(pygame_button, False)

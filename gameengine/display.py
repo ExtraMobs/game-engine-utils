@@ -2,6 +2,8 @@ import math
 
 import pygame
 
+from ._dev_utils import classproperty
+
 
 class Display:
     surface = None
@@ -23,9 +25,17 @@ class Display:
         except pygame.error:
             pass
 
-    @classmethod
-    def get_rect(self):
-        return self.surface.get_rect()
+    @classproperty
+    def size(self):
+        return self.surface.get_size()
+
+    @classproperty
+    def width(self):
+        return self.surface.get_width()
+
+    @classproperty
+    def height(self):
+        return self.surface.get_height()
 
     @classmethod
     def get_scale(self):
