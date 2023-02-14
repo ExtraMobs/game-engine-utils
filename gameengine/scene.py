@@ -1,3 +1,6 @@
+from .objects import GraphicObject
+
+
 class Scene:
     def __init__(self):
         super().__init__()
@@ -18,4 +21,5 @@ class Scene:
         else:
             surface.fill((0, 0, 0))
         for child in self.children:
-            child.render(surface)
+            if isinstance(child, GraphicObject):
+                child.render(surface)
