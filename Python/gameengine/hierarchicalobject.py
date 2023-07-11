@@ -1,7 +1,6 @@
-from gameengine.display import Display
-
-
 class HierarchicalObject:
+    parent = None
+
     def __init__(self) -> None:
         self.children = []
 
@@ -14,7 +13,12 @@ class HierarchicalObject:
         for child in children:
             self.children.remove(child)
 
-    def update(self, *args, **kwargs):
+    def kill(self):
+        if self.parent is not None:
+            self.parent.children.remove(self)
+            self.parent = None
+
+    def update(self):
         for child in list(self.children):
             child.update()
 
